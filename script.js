@@ -151,7 +151,7 @@ function renderProducts(products) {
       <div class="card-body">
         <div class="card-title">${p.name}</div>
         <div class="card-stats"><i class="fa-solid fa-arrow-trend-up"></i> ${p.bookingCount || 0} booked this month</div>
-        <div class="card-price">Select Dates to view price<br><strong>₹ ${p.price || '---'}</strong> /month</div>
+        <div class="card-price">Select Dates to view price<br><strong>₹ ${p.price || '---'}</strong> /day</div>
         <button class="add-cart-btn" onclick="addToCart('${p._id}','${p.name}',${p.price},'${p.image || ''}',this)">Add to Cart</button>
       </div>
     </div>
@@ -179,7 +179,7 @@ function buildSlider(key, cats, sliderId, dotsId) {
       <img src="${p.image || 'assets/placeholder.png'}" alt="${p.name}"
            onerror="this.src='assets/placeholder.png'" />
       <div class="hero-card-name">${p.name}</div>
-      <div class="hero-card-price">₹${p.price}/mo</div>
+      <div class="hero-card-price">₹${p.price}/day</div>
     </div>
   `).join('');
 

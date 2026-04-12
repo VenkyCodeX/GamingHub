@@ -77,7 +77,7 @@ async function loadAdminProducts() {
         <img src="${p.image || 'assets/placeholder.png'}" alt="${p.name}" onerror="this.src='assets/placeholder.png'" />
         <div class="admin-product-info">
           <div class="admin-product-name">${p.name}</div>
-          <div class="admin-product-meta">${p.category} · ₹${p.price}/month ${p.trending ? '· 🔥 Trending' : ''}</div>
+          <div class="admin-product-meta">${p.category} · ₹${p.price}/day ${p.trending ? '· 🔥 Trending' : ''}</div>
         </div>
         <div class="row-actions">
           <button class="btn-edit" onclick='openProductModal(${JSON.stringify(p)})'>Edit</button>

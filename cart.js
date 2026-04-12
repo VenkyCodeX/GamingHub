@@ -31,7 +31,7 @@ function renderCart() {
       <img src="${item.image || 'assets/placeholder.png'}" alt="${item.name}" onerror="this.src='assets/placeholder.png'" />
       <div class="cart-item-info">
         <div class="cart-item-name">${item.name}</div>
-        <div class="cart-item-price">₹${item.price}/month</div>
+        <div class="cart-item-price">₹${item.price}/day</div>
         <div class="qty-controls">
           <button class="qty-btn" onclick="changeQty(${i},-1)">−</button>
           <span class="qty-num">${item.qty}</span>
