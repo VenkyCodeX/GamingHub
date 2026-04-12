@@ -1,0 +1,61 @@
+/* ===== DESKTOP OVERRIDES FOR ALL PAGES ===== */
+/* Included in cart.html, mybookings.html, products.html, terms.html */
+
+@media (min-width: 1024px) {
+
+  /* ---- CART PAGE ---- */
+  .cart-page {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 24px;
+    padding: 24px 40px;
+    align-items: start;
+  }
+
+  /* Left column: cart items + dates + payment + coupon + know-before */
+  .cart-left { display: contents; }
+
+  /* Right column: summary */
+  .cart-summary-col {
+    grid-column: 2;
+    grid-row: 1 / span 10;
+    position: sticky;
+    top: 80px;
+  }
+
+  /* ---- BOOKINGS PAGE ---- */
+  .bookings-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 24px 40px;
+  }
+
+  /* ---- TERMS PAGE ---- */
+  .terms-page {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 24px 40px;
+  }
+  .terms-page h1 { font-size: 1.6rem; }
+  .terms-section h2 { font-size: 1rem; }
+  .terms-section p, .terms-section li { font-size: 0.9rem; }
+
+  /* ---- PRODUCTS SEARCH BAR ---- */
+  .search-bar-wrap {
+    padding: 14px 40px;
+    background: #f5f5f5;
+  }
+  .search-bar { max-width: 600px; }
+
+  /* ---- PRODUCTS SECTION HEADER ---- */
+  .products-section .section-header,
+  div[style*="padding:10px 14px"] {
+    padding: 16px 40px 8px !important;
+  }
+}
+
+@media (min-width: 1280px) {
+  .cart-page { max-width: 1200px; }
+}

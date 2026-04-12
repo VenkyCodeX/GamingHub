@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cart – Gaming Rental Hub</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="desktop.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    .cart-empty { text-align:center; padding:60px 20px; color:#888; }
+    .cart-empty i { font-size:3rem; margin-bottom:12px; display:block; }
+    .cart-item {
+      display:flex; gap:12px; background:#fff; border-radius:12px;
+      border:1px solid #eee; padding:12px; margin-bottom:10px; align-items:center;
+    }
+    .cart-item img { width:60px; height:60px; object-fit:contain; border-radius:8px; background:#f8f8f8; }
+    .cart-item-info { flex:1; }
+    .cart-item-name { font-size:0.85rem; font-weight:600; margin-bottom:4px; }
+    .cart-item-price { font-size:0.82rem; color:#6c2bd9; font-weight:700; }
+    .qty-controls { display:flex; align-items:center; gap:8px; margin-top:6px; }
+    .qty-btn { width:26px; height:26px; border-radius:50%; border:1.5px solid #ddd; background:#fff; cursor:pointer; font-size:0.9rem; }
+    .qty-num { font-size:0.88rem; font-weight:600; min-width:20px; text-align:center; }
+    .remove-btn { background:none; border:none; color:#e74c3c; cursor:pointer; font-size:1rem; }
+    .section-card { background:#fff; border-radius:12px; border:1px solid #eee; padding:14px; margin-bottom:12px; }
+    .section-card h3 { font-size:0.9rem; font-weight:700; margin-bottom:12px; }
+    .date-row { display:flex; gap:10px; }
+    .date-field { flex:1; display:flex; flex-direction:column; gap:4px; font-size:0.8rem; color:#555; }
+    .date-field input { border:1.5px solid #ddd; border-radius:8px; padding:8px; font-size:0.85rem; outline:none; }
+    .payment-options { display:flex; gap:10px; }
+    .pay-opt {
+      flex:1; border:2px solid #ddd; border-radius:10px; padding:10px;
+      text-align:center; cursor:pointer; font-size:0.8rem; transition:all 0.2s;
+    }
+    .pay-opt.selected { border-color:#6c2bd9; background:#f3eeff; color:#6c2bd9; font-weight:600; }
+    .pay-opt i { display:block; font-size:1.3rem; margin-bottom:4px; }
+    .coupon-row { display:flex; gap:8px; }
+    .coupon-row input { flex:1; border:1.5px solid #ddd; border-radius:8px; padding:9px 12px; font-size:0.85rem; outline:none; }
+    .coupon-row button { background:#6c2bd9; color:#fff; border:none; border-radius:8px; padding:9px 16px; cursor:pointer; font-size:0.82rem; }
+    .checkbox-row { display:flex; align-items:center; gap:10px; font-size:0.82rem; cursor:pointer; }
+    .checkbox-row input { width:16px; height:16px; accent-color:#6c2bd9; }
+    .summary-row { display:flex; justify-content:space-between; font-size:0.85rem; padding:4px 0; }
+    .summary-row.total { font-weight:700; font-size:0.95rem; border-top:1px solid #eee; padding-top:10px; margin-top:6px; }
+    .checkout-btn {
+      width:100%; background:#6c2bd9; color:#fff; border:none;
+      border-radius:12px; padding:14px; font-size:1rem; font-weight:700;
+      cursor:pointer; margin-top:4px; transition:background 0.2s;
+    }
+    .checkout-btn:hover { background:#5a22b8; }
+    .know-before { background:#fff8e1; border-radius:10px; padding:12px; margin-bottom:12px; }
+    .know-before h4 { font-size:0.85rem; font-weight:700; margin-bottom:8px; color:#e67e22; }
+    .know-before ul { padding-left:16px; font-size:0.78rem; color:#555; line-height:1.8; }
+    /* SUCCESS SCREEN */
+    .success-screen {
+      display:none; text-align:center; padding:40px 20px;
+    }
+    .success-screen.show { display:block; }
+    .success-icon { font-size:4rem; color:#27ae60; margin-bottom:16px; }
+    .booking-id { background:#f3eeff; border-radius:10px; padding:12px; margin:16px 0; font-size:0.9rem; }
+    .booking-id strong { color:#6c2bd9; font-size:1.1rem; }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="index.html" style="color:#fff;font-size:1.1rem"><i class="fa-solid fa-arrow-left"></i></a>
+    <div class="nav-logo">Gaming<span>Hub</span> — Cart</div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="products.html" class="nav-link">Products</a>
+      <a href="mybookings.html" class="nav-link">My Bookings</a>
+      <a href="terms.html" class="nav-link">Terms</a>
+    </div>
+    <div class="nav-right">
+      <a href="cart.html" class="nav-cart-icon" style="color:#fff"><i class="fa-solid fa-cart-shopping"></i></a>
+    </div>
+  </nav>
+
+  <!-- CART CONTENT -->
+  <div id="cartContent">
+    <div class="cart-page">
+      <div id="cartItems"></div>
+
+      <!-- RENTAL DATES -->
+      <div class="section-card" id="datesSection">
+        <h3><i class="fa-regular fa-calendar"></i> Rental Dates</h3>
+        <div class="date-row">
+          <div class="date-field">
+            <label>Start Date</label>
+            <input type="date" id="startDate" />
+          </div>
+          <div class="date-field">
+            <label>End Date</label>
+            <input type="date" id="endDate" />
+          </div>
+        </div>
+      </div>
+
+      <!-- PAYMENT PREFERENCE -->
+      <div class="section-card">
+        <h3>Payment Preference</h3>
+        <div class="payment-options">
+          <div class="pay-opt selected" id="payUPI" onclick="selectPayment('upi')">
+            <i class="fa-solid fa-mobile-screen-button"></i>UPI / Online
+          </div>
+          <div class="pay-opt" id="payCash" onclick="selectPayment('cash')">
+            <i class="fa-solid fa-hand-holding-dollar"></i>Cash on Pickup
+          </div>
+        </div>
+      </div>
+
+      <!-- COUPON -->
+      <div class="section-card">
+        <h3>Coupon Code</h3>
+        <div class="coupon-row">
+          <input type="text" id="couponInput" placeholder="Enter coupon code" />
+          <button onclick="applyCoupon()">Apply</button>
+        </div>
+        <div id="couponMsg" style="font-size:0.78rem;margin-top:6px;color:#27ae60"></div>
+      </div>
+
+      <!-- KNOW BEFORE YOU BOOK -->
+      <div class="know-before">
+        <h4>⚠️ Know before you book</h4>
+        <ul>
+          <li>Security deposit required at pickup</li>
+          <li>ID proof mandatory (Aadhar/Passport)</li>
+          <li>Late returns charged at daily rate</li>
+          <li>Damage charges apply for misuse</li>
+        </ul>
+      </div>
+
+      <!-- ORDER SUMMARY -->
+      <div class="section-card">
+        <h3>Order Summary</h3>
+        <div id="summaryRows"></div>
+        <label class="checkbox-row" style="margin:10px 0">
+          <input type="checkbox" id="insuranceCheck" onchange="recalcTotal()" />
+          Add Insurance (₹99) – Covers accidental damage
+        </label>
+        <div class="summary-row">
+          <span>Platform Charges</span><span>₹49</span>
+        </div>
+        <div class="summary-row total">
+          <span>Total</span><span id="totalAmount">₹0</span>
+        </div>
+        <button class="checkout-btn" onclick="placeOrder()">Proceed to Checkout</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUCCESS SCREEN -->
+  <div class="success-screen" id="successScreen">
+    <div class="success-icon"><i class="fa-solid fa-circle-check"></i></div>
+    <h2>Booking Confirmed!</h2>
+    <p style="color:#888;font-size:0.88rem;margin-top:8px">Your booking has been placed successfully.</p>
+    <div class="booking-id">
+      Booking ID: <strong id="bookingIdDisplay">--</strong>
+    </div>
+    <a href="mybookings.html" style="display:block;margin-top:12px;color:#6c2bd9;font-size:0.88rem">View My Bookings →</a>
+    <a href="index.html">
+      <button class="checkout-btn" style="margin-top:16px">Continue Shopping</button>
+    </a>
+  </div>
+
+  <a href="https://wa.me/919999999999" class="whatsapp-fab" target="_blank">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
+
+  <nav class="bottom-nav">
+    <a href="index.html"><i class="fa-solid fa-house"></i><span>Home</span></a>
+    <a href="products.html"><i class="fa-solid fa-grid-2"></i><span>Category</span></a>
+    <a href="products.html?search=1"><i class="fa-solid fa-magnifying-glass"></i><span>Search</span></a>
+    <a href="cart.html" class="active"><i class="fa-solid fa-cart-shopping"></i><span>Cart</span></a>
+  </nav>
+
+  <script src="cart.js"></script>
+</body>
+</html>

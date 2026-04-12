@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Products – Gaming Rental Hub</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="products.css" />
+  <link rel="stylesheet" href="desktop.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-logo">Gaming<span>Hub</span></div>
+    <div class="nav-center">
+      <button class="location-btn"><i class="fa-solid fa-location-dot"></i> Hyderabad <i class="fa-solid fa-chevron-down"></i></button>
+    </div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="products.html" class="nav-link active">Products</a>
+      <a href="mybookings.html" class="nav-link">My Bookings</a>
+      <a href="terms.html" class="nav-link">Terms</a>
+    </div>
+    <div class="nav-right">
+      <a href="cart.html" class="nav-cart-icon"><i class="fa-solid fa-cart-shopping"></i><span class="cart-badge" id="cartBadge">0</span></a>
+      <button class="nav-profile"><i class="fa-solid fa-user"></i></button>
+    </div>
+  </nav>
+
+  <div class="date-bar">
+    <div class="date-input" onclick="openDateModal()">
+      <i class="fa-regular fa-calendar"></i>
+      <span id="dateDisplay">Select Rental Dates</span>
+    </div>
+    <button class="select-btn" onclick="openDateModal()"><i class="fa-regular fa-calendar"></i> Select</button>
+  </div>
+
+  <!-- SEARCH BAR -->
+  <div class="search-bar-wrap">
+    <div class="search-bar">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" id="searchInput" placeholder="Search products..." oninput="debounceSearch()" />
+      <button onclick="clearSearch()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+  </div>
+
+  <!-- SECTION HEADER -->
+  <div class="section-header" style="padding:10px 14px 4px">
+    <h2 id="sectionTitle">All Products</h2>
+    <span id="itemCount" class="item-count">-- items</span>
+  </div>
+
+  <div class="products-layout">
+    <div class="sidebar" id="sidebar"></div>
+    <div class="products-grid" id="productsGrid">
+      <div class="loading-spinner"><i class="fa-solid fa-spinner fa-spin"></i></div>
+    </div>
+  </div>
+
+  <a href="https://wa.me/919999999999" class="whatsapp-fab" target="_blank">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
+
+  <nav class="bottom-nav">
+    <a href="index.html"><i class="fa-solid fa-house"></i><span>Home</span></a>
+    <a href="products.html" class="active"><i class="fa-solid fa-grid-2"></i><span>Category</span></a>
+    <a href="products.html?search=1"><i class="fa-solid fa-magnifying-glass"></i><span>Search</span></a>
+    <a href="cart.html"><i class="fa-solid fa-cart-shopping"></i><span>Cart</span></a>
+  </nav>
+
+  <div class="modal-overlay hidden" id="dateModal">
+    <div class="modal">
+      <h3>Select Rental Dates</h3>
+      <label>Start Date<input type="date" id="startDate" /></label>
+      <label>End Date<input type="date" id="endDate" /></label>
+      <div class="modal-actions">
+        <button onclick="closeDateModal()">Cancel</button>
+        <button class="btn-primary" onclick="saveDates()">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="products.js"></script>
+</body>
+</html>

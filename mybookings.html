@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Bookings – Gaming Rental Hub</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="desktop.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    .lookup-card { background:#fff; border-radius:12px; border:1px solid #eee; padding:16px; margin-bottom:16px; }
+    .lookup-card h3 { font-size:0.95rem; font-weight:700; margin-bottom:12px; }
+    .phone-row { display:flex; gap:8px; }
+    .phone-row input { flex:1; border:1.5px solid #ddd; border-radius:8px; padding:10px 12px; font-size:0.88rem; outline:none; }
+    .phone-row button { background:#6c2bd9; color:#fff; border:none; border-radius:8px; padding:10px 16px; cursor:pointer; font-size:0.85rem; }
+    .booking-card { background:#fff; border-radius:12px; border:1px solid #eee; padding:14px; margin-bottom:10px; }
+    .booking-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+    .booking-id-tag { font-size:0.75rem; color:#888; }
+    .status-badge { font-size:0.72rem; padding:3px 10px; border-radius:20px; font-weight:600; }
+    .status-pending { background:#fff3cd; color:#856404; }
+    .status-confirmed { background:#d1e7dd; color:#0f5132; }
+    .status-cancelled { background:#f8d7da; color:#842029; }
+    .booking-items { font-size:0.82rem; color:#444; margin-bottom:8px; }
+    .booking-meta { display:flex; gap:12px; font-size:0.78rem; color:#888; flex-wrap:wrap; }
+    .booking-meta span { display:flex; align-items:center; gap:4px; }
+    .no-bookings { text-align:center; padding:40px; color:#888; }
+    .no-bookings i { font-size:2.5rem; display:block; margin-bottom:10px; }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="index.html" style="color:#fff;font-size:1.1rem"><i class="fa-solid fa-arrow-left"></i></a>
+    <div class="nav-logo">Gaming<span>Hub</span></div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="products.html" class="nav-link">Products</a>
+      <a href="mybookings.html" class="nav-link active">My Bookings</a>
+      <a href="terms.html" class="nav-link">Terms</a>
+    </div>
+    <div class="nav-right">
+      <a href="cart.html" class="nav-cart-icon" style="color:#fff"><i class="fa-solid fa-cart-shopping"></i></a>
+    </div>
+  </nav>
+
+  <div class="bookings-page">
+    <div class="lookup-card">
+      <h3><i class="fa-solid fa-magnifying-glass"></i> Find Your Bookings</h3>
+      <div class="phone-row">
+        <input type="tel" id="phoneInput" placeholder="Enter your phone number" maxlength="10" />
+        <button onclick="lookupBookings()">Search</button>
+      </div>
+    </div>
+    <div id="bookingsResult"></div>
+  </div>
+
+  <a href="https://wa.me/919999999999" class="whatsapp-fab" target="_blank">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
+
+  <nav class="bottom-nav">
+    <a href="index.html"><i class="fa-solid fa-house"></i><span>Home</span></a>
+    <a href="products.html"><i class="fa-solid fa-grid-2"></i><span>Category</span></a>
+    <a href="products.html?search=1"><i class="fa-solid fa-magnifying-glass"></i><span>Search</span></a>
+    <a href="cart.html"><i class="fa-solid fa-cart-shopping"></i><span>Cart</span></a>
+  </nav>
+
+  <script>
+    const API = 'http://localhost:5000/api';
+
+    async function lookupBookings() {
+      const phone = document.getElementById('phoneInput').value.trim();
+      if (phone.length < 10) return alert('Enter a valid 10-digit phone number');
+      const result = document.getElementById('bookingsResult');
+      result.innerHTML = '<div style="text-align:center;padding:20px;color:#6c2bd9"><i class="fa-solid fa-spinner fa-spin fa-2x"></i></div>';
+      try {
+        const res = await fetch(`${API}/bookings/phone/${phone}`);
+        const bookings = await res.json();
+        if (!bookings.length) {
+          result.innerHTML = '<div class="no-bookings"><i class="fa-solid fa-box-open"></i><p>No bookings found for this number</p></div>';
+          return;
+        }
+        result.innerHTML = bookings.map(b => `
+          <div class="booking-card">
+            <div class="booking-header">
+              <span class="booking-id-tag">ID: ${b._id?.slice(-8).toUpperCase() || 'N/A'}</span>
+              <span class="status-badge status-${b.status || 'pending'}">${(b.status || 'pending').toUpperCase()}</span>
+            </div>
+            <div class="booking-items">${b.items?.map(i => i.name).join(', ') || 'Items'}</div>
+            <div class="booking-meta">
+              <span><i class="fa-regular fa-calendar"></i> ${b.startDate?.slice(0,10) || '--'} → ${b.endDate?.slice(0,10) || '--'}</span>
+              <span><i class="fa-solid fa-indian-rupee-sign"></i> ${b.total || '--'}</span>
+              <span><i class="fa-solid fa-credit-card"></i> ${b.paymentMethod || '--'}</span>
+            </div>
+          </div>
+        `).join('');
+      } catch {
+        result.innerHTML = '<div class="no-bookings"><i class="fa-solid fa-triangle-exclamation"></i><p>Could not fetch bookings. Try again later.</p></div>';
+      }
+    }
+
+    document.getElementById('phoneInput').addEventListener('keydown', e => {
+      if (e.key === 'Enter') lookupBookings();
+    });
+  </script>
+</body>
+</html>

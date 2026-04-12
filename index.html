@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gaming Rental Hub</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="desktop.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-logo">Gaming<span>Hub</span></div>
+    <div class="nav-center">
+      <button class="location-btn"><i class="fa-solid fa-location-dot"></i> Hyderabad <i class="fa-solid fa-chevron-down"></i></button>
+    </div>
+    <!-- Desktop nav links -->
+    <div class="nav-links">
+      <a href="index.html" class="nav-link active">Home</a>
+      <a href="products.html" class="nav-link">Products</a>
+      <a href="mybookings.html" class="nav-link">My Bookings</a>
+      <a href="terms.html" class="nav-link">Terms</a>
+    </div>
+    <div class="nav-right">
+      <a href="cart.html" class="nav-cart-icon"><i class="fa-solid fa-cart-shopping"></i><span class="cart-badge" id="cartBadge">0</span></a>
+      <button class="nav-profile"><i class="fa-solid fa-user"></i></button>
+    </div>
+  </nav>
+
+  <!-- DATE SELECTOR -->
+  <div class="date-bar">
+    <div class="date-input" onclick="openDateModal()">
+      <i class="fa-regular fa-calendar"></i>
+      <span id="dateDisplay">Select Rental Dates</span>
+    </div>
+    <button class="select-btn" onclick="openDateModal()"><i class="fa-regular fa-calendar"></i> Select</button>
+  </div>
+
+  <!-- CATEGORY TABS -->
+  <div class="category-tabs">
+    <button class="prev-tab" onclick="scrollTabs(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+    <div class="tabs-wrapper" id="tabsWrapper">
+      <button class="tab active" data-cat="gaming" onclick="switchHero(this,'gaming')">Gaming Consoles</button>
+      <button class="tab" data-cat="outdoor" onclick="switchHero(this,'outdoor')">Outdoor</button>
+      <button class="tab" data-cat="entertainment" onclick="switchHero(this,'entertainment')">Entertainment</button>
+    </div>
+    <button class="next-tab" onclick="scrollTabs(1)"><i class="fa-solid fa-chevron-right"></i></button>
+  </div>
+
+  <!-- HERO BANNERS -->
+  <div class="hero-section" id="hero-gaming">
+    <div class="hero-content">
+      <h1>Gaming Consoles</h1>
+      <p>Rent the latest gaming gadgets from <strong>GamingHub</strong><br>Xbox, Oculus VR, Racing Wheel on rent.</p>
+      <div class="hero-brands">
+        <span>XBOX</span><span>PS5</span><span>Meta</span>
+      </div>
+    </div>
+    <div class="hero-slider-wrap">
+      <div class="hero-slider" id="sliderGaming"></div>
+      <div class="slider-dots" id="dotsGaming"></div>
+    </div>
+  </div>
+
+  <div class="hero-section hero-outdoor hidden" id="hero-outdoor">
+    <div class="hero-content">
+      <h1>Outdoor Gear</h1>
+      <p>Rent Trekking, riding, &amp; camping gear from <strong>GamingHub</strong><br>Jackets, shoes, Boots, Backpacks, tents on rent.</p>
+      <div class="hero-brands">
+        <span>AXOR</span><span>DECATHLON</span>
+      </div>
+    </div>
+    <div class="hero-slider-wrap">
+      <div class="hero-slider" id="sliderOutdoor"></div>
+      <div class="slider-dots" id="dotsOutdoor"></div>
+    </div>
+  </div>
+
+  <div class="hero-section hero-entertainment hidden" id="hero-entertainment">
+    <div class="hero-content">
+      <h1>Entertainment Gear</h1>
+      <p>Rent Audio Visual equipments from <strong>GamingHub</strong><br>Speakers, projectors, microphones on rent.</p>
+      <div class="hero-brands">
+        <span>Marshall</span><span>SONY</span><span>EPSON</span>
+      </div>
+    </div>
+    <div class="hero-slider-wrap">
+      <div class="hero-slider" id="sliderEntertainment"></div>
+      <div class="slider-dots" id="dotsEntertainment"></div>
+    </div>
+  </div>
+
+  <!-- PRODUCTS SECTION -->
+  <div class="products-section">
+    <div class="section-header">
+      <h2 id="sectionTitle">Gaming Gadgets On Rent</h2>
+      <span id="itemCount" class="item-count">-- items</span>
+    </div>
+
+    <!-- SIDEBAR + GRID -->
+    <div class="products-layout">
+      <div class="sidebar" id="sidebar"></div>
+      <div class="products-grid" id="productsGrid">
+        <div class="loading-spinner"><i class="fa-solid fa-spinner fa-spin"></i></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHATSAPP FAB -->
+  <a href="https://wa.me/919999999999" class="whatsapp-fab" target="_blank">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="active"><i class="fa-solid fa-house"></i><span>Home</span></a>
+    <a href="products.html"><i class="fa-solid fa-grid-2"></i><span>Category</span></a>
+    <a href="products.html?search=1"><i class="fa-solid fa-magnifying-glass"></i><span>Search</span></a>
+    <a href="cart.html"><i class="fa-solid fa-cart-shopping"></i><span>Cart</span></a>
+  </nav>
+
+  <!-- DATE MODAL -->
+  <div class="modal-overlay hidden" id="dateModal">
+    <div class="modal">
+      <h3>Select Rental Dates</h3>
+      <label>Start Date<input type="date" id="startDate" /></label>
+      <label>End Date<input type="date" id="endDate" /></label>
+      <div class="modal-actions">
+        <button onclick="closeDateModal()">Cancel</button>
+        <button class="btn-primary" onclick="saveDates()">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
