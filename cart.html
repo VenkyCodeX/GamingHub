@@ -78,59 +78,61 @@
   <!-- CART CONTENT -->
   <div id="cartContent">
     <div class="cart-page">
-      <div id="cartItems"></div>
+      <div class="cart-left">
+        <div id="cartItems"></div>
 
-      <!-- RENTAL DATES -->
-      <div class="section-card" id="datesSection">
-        <h3><i class="fa-regular fa-calendar"></i> Rental Dates</h3>
-        <div class="date-row">
-          <div class="date-field">
-            <label>Start Date</label>
-            <input type="date" id="startDate" />
-          </div>
-          <div class="date-field">
-            <label>End Date</label>
-            <input type="date" id="endDate" />
-          </div>
-        </div>
-      </div>
-
-      <!-- PAYMENT PREFERENCE -->
-      <div class="section-card">
-        <h3>Payment Preference</h3>
-        <div class="payment-options">
-          <div class="pay-opt selected" id="payUPI" onclick="selectPayment('upi')">
-            <i class="fa-solid fa-mobile-screen-button"></i>UPI / Online
-          </div>
-          <div class="pay-opt" id="payCash" onclick="selectPayment('cash')">
-            <i class="fa-solid fa-hand-holding-dollar"></i>Cash on Pickup
+        <!-- RENTAL DATES -->
+        <div class="section-card" id="datesSection">
+          <h3><i class="fa-regular fa-calendar"></i> Rental Dates</h3>
+          <div class="date-row">
+            <div class="date-field">
+              <label>Start Date</label>
+              <input type="date" id="startDate" />
+            </div>
+            <div class="date-field">
+              <label>End Date</label>
+              <input type="date" id="endDate" />
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- COUPON -->
-      <div class="section-card">
-        <h3>Coupon Code</h3>
-        <div class="coupon-row">
-          <input type="text" id="couponInput" placeholder="Enter coupon code" />
-          <button onclick="applyCoupon()">Apply</button>
+        <!-- PAYMENT PREFERENCE -->
+        <div class="section-card">
+          <h3>Payment Preference</h3>
+          <div class="payment-options">
+            <div class="pay-opt selected" id="payUPI" onclick="selectPayment('upi')">
+              <i class="fa-solid fa-mobile-screen-button"></i>UPI / Online
+            </div>
+            <div class="pay-opt" id="payCash" onclick="selectPayment('cash')">
+              <i class="fa-solid fa-hand-holding-dollar"></i>Cash on Pickup
+            </div>
+          </div>
         </div>
-        <div id="couponMsg" style="font-size:0.78rem;margin-top:6px;color:#27ae60"></div>
-      </div>
 
-      <!-- KNOW BEFORE YOU BOOK -->
-      <div class="know-before">
-        <h4>⚠️ Know before you book</h4>
-        <ul>
-          <li>Security deposit required at pickup</li>
-          <li>ID proof mandatory (Aadhar/Passport)</li>
-          <li>Late returns charged at daily rate</li>
-          <li>Damage charges apply for misuse</li>
-        </ul>
+        <!-- COUPON -->
+        <div class="section-card">
+          <h3>Coupon Code</h3>
+          <div class="coupon-row">
+            <input type="text" id="couponInput" placeholder="Enter coupon code" />
+            <button onclick="applyCoupon()">Apply</button>
+          </div>
+          <div id="couponMsg" style="font-size:0.78rem;margin-top:6px;color:#27ae60"></div>
+        </div>
+
+        <!-- KNOW BEFORE YOU BOOK -->
+        <div class="know-before">
+          <h4>⚠️ Know before you book</h4>
+          <ul>
+            <li>Security deposit required at pickup</li>
+            <li>ID proof mandatory (Aadhar/Passport)</li>
+            <li>Late returns charged at daily rate</li>
+            <li>Damage charges apply for misuse</li>
+          </ul>
+        </div>
       </div>
 
       <!-- ORDER SUMMARY -->
-      <div class="section-card">
+      <div class="section-card cart-summary-col">
         <h3>Order Summary</h3>
         <div id="summaryRows"></div>
         <label class="checkbox-row" style="margin:10px 0">
