@@ -7,23 +7,38 @@
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="desktop.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    .bookings-page { padding: 16px; }
     .lookup-card { background:#fff; border-radius:12px; border:1px solid #eee; padding:16px; margin-bottom:16px; }
     .lookup-card h3 { font-size:0.95rem; font-weight:700; margin-bottom:12px; }
     .phone-row { display:flex; gap:8px; }
     .phone-row input { flex:1; border:1.5px solid #ddd; border-radius:8px; padding:10px 12px; font-size:0.88rem; outline:none; }
-    .phone-row button { background:#6c2bd9; color:#fff; border:none; border-radius:8px; padding:10px 16px; cursor:pointer; font-size:0.85rem; }
+    .phone-row input:focus { border-color:#6c2bd9; }
+    .phone-row button { background:#6c2bd9; color:#fff; border:none; border-radius:8px; padding:10px 18px; cursor:pointer; font-size:0.85rem; font-weight:600; }
     .booking-card { background:#fff; border-radius:12px; border:1px solid #eee; padding:14px; margin-bottom:10px; }
     .booking-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
-    .booking-id-tag { font-size:0.75rem; color:#888; }
-    .status-badge { font-size:0.72rem; padding:3px 10px; border-radius:20px; font-weight:600; }
+    .booking-id-tag { font-size:0.75rem; color:#888; font-weight:600; }
+    .status-badge { font-size:0.72rem; padding:3px 10px; border-radius:20px; font-weight:700; }
     .status-pending { background:#fff3cd; color:#856404; }
     .status-confirmed { background:#d1e7dd; color:#0f5132; }
     .status-cancelled { background:#f8d7da; color:#842029; }
-    .booking-items { font-size:0.82rem; color:#444; margin-bottom:8px; }
+    .booking-items { font-size:0.82rem; color:#333; font-weight:500; margin-bottom:8px; line-height:1.4; }
     .booking-meta { display:flex; gap:12px; font-size:0.78rem; color:#888; flex-wrap:wrap; }
     .booking-meta span { display:flex; align-items:center; gap:4px; }
-    .no-bookings { text-align:center; padding:40px; color:#888; }
-    .no-bookings i { font-size:2.5rem; display:block; margin-bottom:10px; }
+    .no-bookings { text-align:center; padding:50px 20px; color:#888; }
+    .no-bookings i { font-size:2.5rem; display:block; margin-bottom:12px; color:#ccc; }
+    .no-bookings p { font-size:0.88rem; }
+
+    /* Desktop */
+    @media (min-width:1024px) {
+      .bookings-page { max-width:800px; margin:0 auto; padding:28px 40px; }
+      .lookup-card { padding:20px; }
+      .lookup-card h3 { font-size:1.05rem; }
+      .phone-row input { font-size:0.95rem; padding:12px 14px; }
+      .booking-card { padding:18px; }
+      .booking-items { font-size:0.9rem; }
+      .booking-meta { font-size:0.85rem; gap:16px; }
+    }
   </style>
 </head>
 <body>
@@ -46,8 +61,8 @@
     <div class="lookup-card">
       <h3><i class="fa-solid fa-magnifying-glass"></i> Find Your Bookings</h3>
       <div class="phone-row">
-        <input type="tel" id="phoneInput" placeholder="Enter your phone number" maxlength="10" />
-        <button onclick="lookupBookings()">Search</button>
+        <input type="tel" id="phoneInput" placeholder="Enter your 10-digit phone number" maxlength="10" />
+        <button onclick="lookupBookings()"><i class="fa-solid fa-search"></i> Search</button>
       </div>
     </div>
     <div id="bookingsResult"></div>
@@ -59,43 +74,53 @@
 
   <nav class="bottom-nav">
     <a href="index.html"><i class="fa-solid fa-house"></i><span>Home</span></a>
-    <a href="products.html"><i class="fa-solid fa-grid-2"></i><span>Category</span></a>
+    <a href="products.html"><i class="fa-solid fa-th-large"></i><span>Category</span></a>
     <a href="products.html?search=1"><i class="fa-solid fa-magnifying-glass"></i><span>Search</span></a>
     <a href="cart.html"><i class="fa-solid fa-cart-shopping"></i><span>Cart</span></a>
   </nav>
 
   <script>
-    const API = 'http://localhost:5000/api';
+    const API = 'https://gaminghub-7s66.onrender.com/api';
 
     async function lookupBookings() {
       const phone = document.getElementById('phoneInput').value.trim();
-      if (phone.length < 10) return alert('Enter a valid 10-digit phone number');
+      if (phone.length < 10) return showMsg('Enter a valid 10-digit phone number', 'warn');
       const result = document.getElementById('bookingsResult');
-      result.innerHTML = '<div style="text-align:center;padding:20px;color:#6c2bd9"><i class="fa-solid fa-spinner fa-spin fa-2x"></i></div>';
+      result.innerHTML = '<div style="text-align:center;padding:30px;color:#6c2bd9"><i class="fa-solid fa-spinner fa-spin fa-2x"></i></div>';
       try {
         const res = await fetch(`${API}/bookings/phone/${phone}`);
         const bookings = await res.json();
         if (!bookings.length) {
-          result.innerHTML = '<div class="no-bookings"><i class="fa-solid fa-box-open"></i><p>No bookings found for this number</p></div>';
+          result.innerHTML = `<div class="no-bookings">
+            <i class="fa-solid fa-box-open"></i>
+            <p>No bookings found for <strong>${phone}</strong></p>
+          </div>`;
           return;
         }
         result.innerHTML = bookings.map(b => `
           <div class="booking-card">
             <div class="booking-header">
-              <span class="booking-id-tag">ID: ${b._id?.slice(-8).toUpperCase() || 'N/A'}</span>
+              <span class="booking-id-tag"><i class="fa-solid fa-hashtag"></i> ${b._id?.slice(-8).toUpperCase() || 'N/A'}</span>
               <span class="status-badge status-${b.status || 'pending'}">${(b.status || 'pending').toUpperCase()}</span>
             </div>
             <div class="booking-items">${b.items?.map(i => i.name).join(', ') || 'Items'}</div>
             <div class="booking-meta">
               <span><i class="fa-regular fa-calendar"></i> ${b.startDate?.slice(0,10) || '--'} → ${b.endDate?.slice(0,10) || '--'}</span>
               <span><i class="fa-solid fa-indian-rupee-sign"></i> ${b.total || '--'}</span>
-              <span><i class="fa-solid fa-credit-card"></i> ${b.paymentMethod || '--'}</span>
+              <span><i class="fa-solid fa-credit-card"></i> ${b.paymentMethod === 'upi' ? 'UPI / Online' : 'Cash on Pickup'}</span>
             </div>
           </div>
         `).join('');
       } catch {
-        result.innerHTML = '<div class="no-bookings"><i class="fa-solid fa-triangle-exclamation"></i><p>Could not fetch bookings. Try again later.</p></div>';
+        result.innerHTML = `<div class="no-bookings">
+          <i class="fa-solid fa-triangle-exclamation" style="color:#e74c3c"></i>
+          <p>Could not fetch bookings. Make sure the server is running.</p>
+        </div>`;
       }
+    }
+
+    function showMsg(msg, type) {
+      alert(msg);
     }
 
     document.getElementById('phoneInput').addEventListener('keydown', e => {
