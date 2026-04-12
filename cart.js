@@ -1,4 +1,4 @@
-const API = 'http://localhost:5000/api';
+const API = 'https://gaminghub-7s66.onrender.com/api';
 let cart = JSON.parse(localStorage.getItem('cart') || '[]');
 let paymentMethod = 'upi';
 let discount = 0;
