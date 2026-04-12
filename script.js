@@ -238,12 +238,12 @@ function positionCards(key, sliderId, dotsId, total) {
       tx = d > 0 ? offset2 : -offset2;
     } else {
       card.style.opacity = '0';
-      card.style.transform = `translateX(${d > 0 ? offset2 * 1.5 : -offset2 * 1.5}px)`;
+      card.style.transform = `translate(calc(-50% + ${d > 0 ? offset2 * 1.5 : -offset2 * 1.5}px), -50%)`;
       card.style.zIndex = '0';
       return;
     }
     card.style.opacity = '';
-    card.style.transform = `translateX(${tx}px)`;
+    card.style.transform = `translate(calc(-50% + ${tx}px), -50%)`;
     card.style.zIndex = '';
   });
 

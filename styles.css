@@ -135,8 +135,10 @@ img { max-width: 100%; }
   width: 90px; height: 130px;
   padding: 10px 8px 8px;
   opacity: 0.55;
+  /* anchor at center of container */
+  top: 50%;
   left: 50%;
-  margin-left: -45px;
+  transform: translate(-50%, -50%);
 }
 .hero-card.center {
   width: 130px; height: 175px;
@@ -145,7 +147,6 @@ img { max-width: 100%; }
   border-color: rgba(255,255,255,0.7);
   box-shadow: 0 8px 32px rgba(0,0,0,0.35);
   padding: 14px 10px 10px;
-  margin-left: -65px;
 }
 .hero-card.side-1 { z-index: 2; }
 .hero-card.side-2 { z-index: 1; opacity: 0.35; }
@@ -363,8 +364,8 @@ img { max-width: 100%; }
   /* Hero slider — coverflow, wider on desktop */
   .hero-slider-wrap { flex: 1; }
   .hero-slider { height: 260px; }
-  .hero-card { width: 120px; height: 170px; margin-left: -60px; }
-  .hero-card.center { width: 180px; height: 240px; margin-left: -90px; }
+  .hero-card { width: 120px; height: 170px; }
+  .hero-card.center { width: 180px; height: 240px; }
   .hero-card-name { font-size: 0.65rem; }
   .hero-card.center .hero-card-name { font-size: 0.78rem; }
   .hero-card-price { font-size: 0.62rem; }
