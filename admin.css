@@ -9,8 +9,9 @@
   background: #fff; border-radius: 16px; padding: 28px 24px;
   width: 90%; max-width: 360px; display: flex; flex-direction: column; gap: 14px;
 }
-.login-logo { font-size: 1.4rem; font-weight: 800; color: #6c2bd9; }
+.login-logo { font-size: 1.4rem; font-weight: 800; color: #6c2bd9; display: flex; align-items: center; gap: 6px; }
 .login-logo span { color: #f0c040; }
+.login-logo .logo-img { height: 36px; width: 36px; object-fit: contain; border-radius: 6px; }
 .login-card h2 { font-size: 1.1rem; font-weight: 700; color: #222; }
 .form-group { display: flex; flex-direction: column; gap: 5px; }
 .form-group label { font-size: 0.8rem; color: #555; font-weight: 600; }

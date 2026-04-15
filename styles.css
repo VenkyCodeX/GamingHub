@@ -18,8 +18,9 @@ img { max-width: 100%; }
   display: flex; align-items: center; justify-content: space-between;
   background: #6c2bd9; padding: 10px 14px; position: sticky; top: 0; z-index: 100;
 }
-.nav-logo { color: #fff; font-size: 1.3rem; font-weight: 800; letter-spacing: -0.5px; }
+.nav-logo { color: #fff; font-size: 1.3rem; font-weight: 800; letter-spacing: -0.5px; display: flex; align-items: center; gap: 6px; }
 .nav-logo span { color: #f0c040; }
+.logo-img { height: 32px; width: 32px; object-fit: contain; border-radius: 6px; }
 .location-btn {
   background: rgba(255,255,255,0.15); border: none; color: #fff;
   padding: 5px 10px; border-radius: 20px; font-size: 0.82rem; cursor: pointer;
