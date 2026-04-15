@@ -1,4 +1,4 @@
-const API = 'https://gaminghub-7s66.onrender.com/api';
+const API = 'https://gaminghub-5kpu.onrender.com/api';
 
 const CATEGORIES = {
   gaming: {
