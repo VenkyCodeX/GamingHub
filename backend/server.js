@@ -5,7 +5,20 @@ const path = require('path');
 const connectDB = require('./config/db');
 
 const app = express();
-connectDB();
+connectDB().then(autoSeed);
+
+async function autoSeed() {
+  try {
+    const Product = require('./models/Product');
+    const User = require('./models/User');
+    const count = await Product.countDocuments();
+    if (count < 10) {
+      console.log('Auto-seeding products...');
+      const { execSync } = require('child_process');
+      execSync('node ' + path.join(__dirname, 'seed.js'), { stdio: 'inherit' });
+    }
+  } catch (e) { console.error('Auto-seed error:', e.message); }
+}
 
 app.use(cors());
 app.use(express.json());
