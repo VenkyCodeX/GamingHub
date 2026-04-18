@@ -12,8 +12,8 @@ async function autoSeed() {
     const Product = require('./models/Product');
     const User = require('./models/User');
     const count = await Product.countDocuments();
-    if (count < 10) {
-      console.log('Auto-seeding products...');
+    if (count === 0) {
+      console.log('No products found, seeding...');
       const { execSync } = require('child_process');
       execSync('node ' + path.join(__dirname, 'seed.js'), { stdio: 'inherit' });
     }
