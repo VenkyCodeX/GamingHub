@@ -7,7 +7,9 @@ const bookingSchema = new mongoose.Schema({
     qty: Number,
     price: Number
   }],
+  name: { type: String, default: '' },
   phone: { type: String, required: true },
+  email: { type: String, default: '' },
   startDate: { type: Date, required: true },
   endDate: { type: Date, required: true },
   paymentMethod: { type: String, enum: ['upi', 'cash'], default: 'upi' },

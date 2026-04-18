@@ -179,8 +179,9 @@ async function loadAdminBookings() {
           <span class="status-badge status-${b.status || 'pending'}">${(b.status || 'pending').toUpperCase()}</span>
         </div>
         <div class="booking-row-info">
-          📞 ${b.phone} · ${b.items?.map(i => i.name).join(', ') || ''}<br>
-          📅 ${b.startDate?.slice(0,10)} → ${b.endDate?.slice(0,10)} · ₹${b.total}
+          👤 ${b.name || 'N/A'} · 📞 ${b.phone} ${b.email ? '· ✉️ '+b.email : ''}<br>
+          ${b.items?.map(i => i.name).join(', ') || ''}<br>
+          📅 ${b.startDate?.slice(0,16).replace('T',' ')} → ${b.endDate?.slice(0,16).replace('T',' ')} · ₹${b.total}
         </div>
         <div class="booking-row-actions">
           <button class="btn-confirm" onclick="updateBookingStatus('${b._id}','confirmed')">✓ Confirm</button>

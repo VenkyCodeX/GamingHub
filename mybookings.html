@@ -105,7 +105,8 @@
             </div>
             <div class="booking-items">${b.items?.map(i => i.name).join(', ') || 'Items'}</div>
             <div class="booking-meta">
-              <span><i class="fa-regular fa-calendar"></i> ${b.startDate?.slice(0,10) || '--'} → ${b.endDate?.slice(0,10) || '--'}</span>
+              <span><i class="fa-solid fa-user"></i> ${b.name || 'N/A'}</span>
+              <span><i class="fa-regular fa-calendar"></i> ${b.startDate?.slice(0,16).replace('T',' ') || '--'} → ${b.endDate?.slice(0,16).replace('T',' ') || '--'}</span>
               <span><i class="fa-solid fa-indian-rupee-sign"></i> ${b.total || '--'}</span>
               <span><i class="fa-solid fa-credit-card"></i> ${b.paymentMethod === 'upi' ? 'UPI / Online' : 'Cash on Pickup'}</span>
             </div>
