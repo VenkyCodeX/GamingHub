@@ -1,4 +1,4 @@
-const API = 'https://gamingrentalhub.com/api';
+const API = 'https://gaminghub-1-be7i.onrender.com/api';
 
 const ALL_SIDEBAR = [
   { key: 'all', label: 'All', icon: '😊' },
