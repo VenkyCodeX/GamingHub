@@ -8,56 +8,131 @@
   <link rel="stylesheet" href="desktop.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
+    /* ---- CART PAGE ---- */
+    .cart-page { padding: 14px; }
     .cart-empty { text-align:center; padding:60px 20px; color:#888; }
-    .cart-empty i { font-size:3rem; margin-bottom:12px; display:block; }
+    .cart-empty i { font-size:3rem; margin-bottom:12px; display:block; color:#ddd; }
+
     .cart-item {
       display:flex; gap:12px; background:#fff; border-radius:12px;
       border:1px solid #eee; padding:12px; margin-bottom:10px; align-items:center;
+      animation: slideIn 0.3s ease;
     }
+    @keyframes slideIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
     .cart-item img { width:60px; height:60px; object-fit:contain; border-radius:8px; background:#f8f8f8; }
     .cart-item-info { flex:1; }
     .cart-item-name { font-size:0.85rem; font-weight:600; margin-bottom:4px; }
     .cart-item-price { font-size:0.82rem; color:#6c2bd9; font-weight:700; }
     .qty-controls { display:flex; align-items:center; gap:8px; margin-top:6px; }
-    .qty-btn { width:26px; height:26px; border-radius:50%; border:1.5px solid #ddd; background:#fff; cursor:pointer; font-size:0.9rem; }
-    .qty-num { font-size:0.88rem; font-weight:600; min-width:20px; text-align:center; }
-    .remove-btn { background:none; border:none; color:#e74c3c; cursor:pointer; font-size:1rem; }
+    .qty-btn { width:28px; height:28px; border-radius:50%; border:1.5px solid #ddd; background:#fff; cursor:pointer; font-size:1rem; transition:all 0.2s; }
+    .qty-btn:hover { background:#6c2bd9; color:#fff; border-color:#6c2bd9; }
+    .qty-num { font-size:0.88rem; font-weight:700; min-width:20px; text-align:center; }
+    .remove-btn { background:none; border:none; color:#e74c3c; cursor:pointer; font-size:1rem; padding:4px; }
+
     .section-card { background:#fff; border-radius:12px; border:1px solid #eee; padding:14px; margin-bottom:12px; }
-    .section-card h3 { font-size:0.9rem; font-weight:700; margin-bottom:12px; }
-    .date-row { display:flex; gap:10px; }
-    .date-field { flex:1; display:flex; flex-direction:column; gap:4px; font-size:0.8rem; color:#555; }
-    .date-field input { border:1.5px solid #ddd; border-radius:8px; padding:8px; font-size:0.85rem; outline:none; }
+    .section-card h3 { font-size:0.9rem; font-weight:700; margin-bottom:12px; display:flex; align-items:center; gap:6px; }
+
+    /* Form fields */
+    .form-row { display:flex; gap:10px; margin-bottom:10px; }
+    .form-field { flex:1; display:flex; flex-direction:column; gap:4px; font-size:0.8rem; color:#555; font-weight:600; }
+    .form-field input {
+      border:1.5px solid #ddd; border-radius:8px; padding:10px 12px;
+      font-size:0.88rem; outline:none; transition:border-color 0.2s;
+    }
+    .form-field input:focus { border-color:#6c2bd9; }
+
+    /* Date + Time row */
+    .datetime-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+
+    /* Payment */
     .payment-options { display:flex; gap:10px; }
     .pay-opt {
-      flex:1; border:2px solid #ddd; border-radius:10px; padding:10px;
-      text-align:center; cursor:pointer; font-size:0.8rem; transition:all 0.2s;
+      flex:1; border:2px solid #ddd; border-radius:12px; padding:12px 8px;
+      text-align:center; cursor:pointer; font-size:0.82rem; transition:all 0.25s;
     }
-    .pay-opt.selected { border-color:#6c2bd9; background:#f3eeff; color:#6c2bd9; font-weight:600; }
-    .pay-opt i { display:block; font-size:1.3rem; margin-bottom:4px; }
+    .pay-opt i { display:block; font-size:1.5rem; margin-bottom:6px; }
+    .pay-opt.selected { border-color:#6c2bd9; background:#f3eeff; color:#6c2bd9; font-weight:700; }
+    .pay-opt:hover { transform:translateY(-2px); box-shadow:0 4px 12px rgba(108,43,217,0.15); }
+
+    /* Coupon */
     .coupon-row { display:flex; gap:8px; }
     .coupon-row input { flex:1; border:1.5px solid #ddd; border-radius:8px; padding:9px 12px; font-size:0.85rem; outline:none; }
-    .coupon-row button { background:#6c2bd9; color:#fff; border:none; border-radius:8px; padding:9px 16px; cursor:pointer; font-size:0.82rem; }
-    .checkbox-row { display:flex; align-items:center; gap:10px; font-size:0.82rem; cursor:pointer; }
+    .coupon-row input:focus { border-color:#6c2bd9; }
+    .coupon-row button { background:#6c2bd9; color:#fff; border:none; border-radius:8px; padding:9px 16px; cursor:pointer; font-size:0.82rem; font-weight:600; }
+
+    .checkbox-row { display:flex; align-items:center; gap:10px; font-size:0.82rem; cursor:pointer; padding:6px 0; }
     .checkbox-row input { width:16px; height:16px; accent-color:#6c2bd9; }
-    .summary-row { display:flex; justify-content:space-between; font-size:0.85rem; padding:4px 0; }
-    .summary-row.total { font-weight:700; font-size:0.95rem; border-top:1px solid #eee; padding-top:10px; margin-top:6px; }
+
+    .summary-row { display:flex; justify-content:space-between; font-size:0.85rem; padding:5px 0; }
+    .summary-row.total { font-weight:700; font-size:1rem; border-top:2px solid #eee; padding-top:10px; margin-top:6px; color:#6c2bd9; }
+
     .checkout-btn {
       width:100%; background:#6c2bd9; color:#fff; border:none;
       border-radius:12px; padding:14px; font-size:1rem; font-weight:700;
-      cursor:pointer; margin-top:4px; transition:background 0.2s;
+      cursor:pointer; margin-top:8px; transition:all 0.2s;
+      display:flex; align-items:center; justify-content:center; gap:8px;
     }
-    .checkout-btn:hover { background:#5a22b8; }
-    .know-before { background:#fff8e1; border-radius:10px; padding:12px; margin-bottom:12px; }
+    .checkout-btn:hover { background:#5a22b8; transform:translateY(-1px); box-shadow:0 4px 16px rgba(108,43,217,0.3); }
+    .checkout-btn:active { transform:translateY(0); }
+
+    .know-before { background:#fff8e1; border-radius:10px; padding:12px; margin-bottom:12px; border-left:4px solid #f0c040; }
     .know-before h4 { font-size:0.85rem; font-weight:700; margin-bottom:8px; color:#e67e22; }
-    .know-before ul { padding-left:16px; font-size:0.78rem; color:#555; line-height:1.8; }
-    /* SUCCESS SCREEN */
-    .success-screen {
-      display:none; text-align:center; padding:40px 20px;
+    .know-before ul { padding-left:16px; font-size:0.78rem; color:#555; line-height:1.9; }
+
+    /* ---- UPI MODAL ---- */
+    .upi-modal {
+      position:fixed; inset:0; background:rgba(0,0,0,0.6);
+      display:flex; align-items:center; justify-content:center; z-index:300;
+      animation: fadeIn 0.2s ease;
     }
+    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+    .upi-box {
+      background:#fff; border-radius:20px; padding:24px; width:90%; max-width:360px;
+      text-align:center; animation: popUp 0.3s cubic-bezier(.4,0,.2,1);
+    }
+    @keyframes popUp { from{transform:scale(0.85);opacity:0} to{transform:scale(1);opacity:1} }
+    .upi-box h3 { font-size:1.1rem; font-weight:800; margin-bottom:4px; }
+    .upi-box p { font-size:0.82rem; color:#888; margin-bottom:16px; }
+    .upi-amount { font-size:1.8rem; font-weight:900; color:#6c2bd9; margin:10px 0; }
+    .upi-qr { width:160px; height:160px; background:#f0f0f0; border-radius:12px; margin:0 auto 16px; display:flex; align-items:center; justify-content:center; font-size:0.75rem; color:#888; border:2px dashed #ddd; }
+    .upi-id-box { background:#f3eeff; border-radius:10px; padding:10px 14px; margin-bottom:14px; display:flex; align-items:center; justify-content:space-between; }
+    .upi-id-box span { font-size:0.88rem; font-weight:700; color:#6c2bd9; }
+    .copy-btn { background:none; border:none; cursor:pointer; color:#6c2bd9; font-size:1rem; }
+    .upi-apps { display:flex; gap:10px; justify-content:center; margin-bottom:16px; flex-wrap:wrap; }
+    .upi-app-btn {
+      display:flex; flex-direction:column; align-items:center; gap:4px;
+      background:#f8f8f8; border:1.5px solid #eee; border-radius:10px;
+      padding:8px 12px; cursor:pointer; font-size:0.7rem; font-weight:600;
+      transition:all 0.2s; text-decoration:none; color:#222;
+    }
+    .upi-app-btn:hover { border-color:#6c2bd9; background:#f3eeff; }
+    .upi-app-btn i { font-size:1.4rem; }
+    .upi-confirm-btn {
+      width:100%; background:#27ae60; color:#fff; border:none;
+      border-radius:12px; padding:13px; font-size:0.95rem; font-weight:700;
+      cursor:pointer; transition:background 0.2s;
+    }
+    .upi-confirm-btn:hover { background:#219a52; }
+    .upi-cancel-btn {
+      width:100%; background:none; border:none; color:#888;
+      font-size:0.82rem; cursor:pointer; margin-top:8px; padding:6px;
+    }
+
+    /* ---- SUCCESS SCREEN ---- */
+    .success-screen { display:none; text-align:center; padding:40px 20px; animation: fadeIn 0.4s ease; }
     .success-screen.show { display:block; }
-    .success-icon { font-size:4rem; color:#27ae60; margin-bottom:16px; }
-    .booking-id { background:#f3eeff; border-radius:10px; padding:12px; margin:16px 0; font-size:0.9rem; }
-    .booking-id strong { color:#6c2bd9; font-size:1.1rem; }
+    .success-icon { font-size:5rem; color:#27ae60; margin-bottom:16px; animation: bounceIn 0.6s ease; }
+    @keyframes bounceIn {
+      0%{transform:scale(0)} 60%{transform:scale(1.2)} 80%{transform:scale(0.9)} 100%{transform:scale(1)}
+    }
+    .booking-id { background:#f3eeff; border-radius:12px; padding:14px; margin:16px 0; }
+    .booking-id strong { color:#6c2bd9; font-size:1.2rem; display:block; margin-top:4px; }
+    .call-soon { background:#e8f5e9; border-radius:12px; padding:14px; margin:12px 0; display:flex; align-items:center; gap:10px; }
+    .call-soon i { font-size:1.5rem; color:#27ae60; }
+    .call-soon p { font-size:0.85rem; color:#2e7d32; font-weight:600; text-align:left; line-height:1.4; }
+    .success-actions { display:flex; flex-direction:column; gap:10px; margin-top:16px; }
+    .btn-outline { background:#fff; border:2px solid #6c2bd9; color:#6c2bd9; border-radius:12px; padding:12px; font-size:0.9rem; font-weight:700; cursor:pointer; transition:all 0.2s; }
+    .btn-outline:hover { background:#6c2bd9; color:#fff; }
   </style>
 </head>
 <body>
@@ -80,26 +155,57 @@
   <div id="cartContent">
     <div class="cart-page">
       <div class="cart-left">
+
+        <!-- CART ITEMS -->
         <div id="cartItems"></div>
 
-        <!-- RENTAL DATES -->
+        <!-- CUSTOMER DETAILS -->
+        <div class="section-card" id="detailsSection">
+          <h3><i class="fa-solid fa-user" style="color:#6c2bd9"></i> Your Details</h3>
+          <div class="form-row">
+            <div class="form-field">
+              <label>Full Name *</label>
+              <input type="text" id="custName" placeholder="Enter your name" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label>Mobile Number *</label>
+              <input type="tel" id="custPhone" placeholder="10-digit mobile number" maxlength="10" />
+            </div>
+            <div class="form-field">
+              <label>Email</label>
+              <input type="email" id="custEmail" placeholder="your@email.com" />
+            </div>
+          </div>
+        </div>
+
+        <!-- RENTAL DATES & TIMES -->
         <div class="section-card" id="datesSection">
-          <h3><i class="fa-regular fa-calendar"></i> Rental Dates</h3>
-          <div class="date-row">
-            <div class="date-field">
-              <label>Start Date</label>
+          <h3><i class="fa-regular fa-calendar" style="color:#6c2bd9"></i> Rental Schedule</h3>
+          <div class="datetime-grid">
+            <div class="form-field">
+              <label>Pickup Date *</label>
               <input type="date" id="startDate" />
             </div>
-            <div class="date-field">
-              <label>End Date</label>
+            <div class="form-field">
+              <label>Pickup Time *</label>
+              <input type="time" id="startTime" value="10:00" />
+            </div>
+            <div class="form-field">
+              <label>Return Date *</label>
               <input type="date" id="endDate" />
+            </div>
+            <div class="form-field">
+              <label>Return Time *</label>
+              <input type="time" id="endTime" value="10:00" />
             </div>
           </div>
         </div>
 
         <!-- PAYMENT PREFERENCE -->
         <div class="section-card">
-          <h3>Payment Preference</h3>
+          <h3><i class="fa-solid fa-credit-card" style="color:#6c2bd9"></i> Payment Preference</h3>
           <div class="payment-options">
             <div class="pay-opt selected" id="payUPI" onclick="selectPayment('upi')">
               <i class="fa-solid fa-mobile-screen-button"></i>UPI / Online
@@ -112,12 +218,12 @@
 
         <!-- COUPON -->
         <div class="section-card">
-          <h3>Coupon Code</h3>
+          <h3><i class="fa-solid fa-tag" style="color:#6c2bd9"></i> Coupon Code</h3>
           <div class="coupon-row">
             <input type="text" id="couponInput" placeholder="Enter coupon code" />
             <button onclick="applyCoupon()">Apply</button>
           </div>
-          <div id="couponMsg" style="font-size:0.78rem;margin-top:6px;color:#27ae60"></div>
+          <div id="couponMsg" style="font-size:0.78rem;margin-top:6px"></div>
         </div>
 
         <!-- KNOW BEFORE YOU BOOK -->
@@ -125,7 +231,7 @@
           <h4>⚠️ Know before you book</h4>
           <ul>
             <li>Security deposit required at pickup</li>
-            <li>ID proof mandatory (Aadhar/Passport)</li>
+            <li>Valid ID proof mandatory (Aadhar/Passport)</li>
             <li>Late returns charged at daily rate</li>
             <li>Damage charges apply for misuse</li>
           </ul>
@@ -134,35 +240,73 @@
 
       <!-- ORDER SUMMARY -->
       <div class="section-card cart-summary-col">
-        <h3>Order Summary</h3>
+        <h3><i class="fa-solid fa-receipt" style="color:#6c2bd9"></i> Order Summary</h3>
         <div id="summaryRows"></div>
-        <label class="checkbox-row" style="margin:10px 0">
+        <label class="checkbox-row">
           <input type="checkbox" id="insuranceCheck" onchange="recalcTotal()" />
           Add Insurance (₹99) – Covers accidental damage
         </label>
-        <div class="summary-row">
-          <span>Platform Charges</span><span>₹49</span>
-        </div>
-        <div class="summary-row total">
-          <span>Total</span><span id="totalAmount">₹0</span>
-        </div>
-        <button class="checkout-btn" onclick="placeOrder()">Proceed to Checkout</button>
+        <div class="summary-row"><span>Platform Charges</span><span>₹49</span></div>
+        <div class="summary-row total"><span>Total</span><span id="totalAmount">₹0</span></div>
+        <button class="checkout-btn" onclick="placeOrder()">
+          <i class="fa-solid fa-lock"></i> Proceed to Booking
+        </button>
       </div>
+    </div>
+  </div>
+
+  <!-- UPI PAYMENT MODAL -->
+  <div class="upi-modal hidden" id="upiModal">
+    <div class="upi-box">
+      <h3>💳 Pay via UPI</h3>
+      <p>Complete payment to confirm your booking</p>
+      <div class="upi-amount" id="upiAmount">₹0</div>
+      <div class="upi-qr">
+        <span>QR Code<br/>Coming Soon</span>
+      </div>
+      <div class="upi-id-box">
+        <span id="upiIdText">gamingrentalhub@upi</span>
+        <button class="copy-btn" onclick="copyUPI()"><i class="fa-regular fa-copy"></i></button>
+      </div>
+      <div class="upi-apps">
+        <a class="upi-app-btn" href="#" onclick="openUPIApp('gpay')">
+          <i class="fa-brands fa-google-pay" style="color:#4285f4"></i>GPay
+        </a>
+        <a class="upi-app-btn" href="#" onclick="openUPIApp('phonepe')">
+          <i class="fa-solid fa-p" style="color:#5f259f"></i>PhonePe
+        </a>
+        <a class="upi-app-btn" href="#" onclick="openUPIApp('paytm')">
+          <i class="fa-solid fa-wallet" style="color:#00baf2"></i>Paytm
+        </a>
+      </div>
+      <button class="upi-confirm-btn" onclick="confirmUPIPayment()">
+        <i class="fa-solid fa-check"></i> I've Completed Payment
+      </button>
+      <button class="upi-cancel-btn" onclick="closeUPIModal()">Cancel</button>
     </div>
   </div>
 
   <!-- SUCCESS SCREEN -->
   <div class="success-screen" id="successScreen">
     <div class="success-icon"><i class="fa-solid fa-circle-check"></i></div>
-    <h2>Booking Confirmed!</h2>
-    <p style="color:#888;font-size:0.88rem;margin-top:8px">Your booking has been placed successfully.</p>
+    <h2>Booking Confirmed! 🎉</h2>
+    <p style="color:#888;font-size:0.88rem;margin-top:6px">Your booking has been placed successfully.</p>
     <div class="booking-id">
-      Booking ID: <strong id="bookingIdDisplay">--</strong>
+      <span style="font-size:0.82rem;color:#888">Booking ID</span>
+      <strong id="bookingIdDisplay">--</strong>
     </div>
-    <a href="mybookings.html" style="display:block;margin-top:12px;color:#6c2bd9;font-size:0.88rem">View My Bookings →</a>
-    <a href="index.html">
-      <button class="checkout-btn" style="margin-top:16px">Continue Shopping</button>
-    </a>
+    <div class="call-soon">
+      <i class="fa-solid fa-phone-volume"></i>
+      <p>We will call you shortly to confirm your booking details!</p>
+    </div>
+    <div class="success-actions">
+      <a href="mybookings.html">
+        <button class="btn-outline" style="width:100%"><i class="fa-solid fa-list"></i> View My Bookings</button>
+      </a>
+      <a href="index.html">
+        <button class="checkout-btn"><i class="fa-solid fa-house"></i> Continue Shopping</button>
+      </a>
+    </div>
   </div>
 
   <a href="https://wa.me/919999999999" class="whatsapp-fab" target="_blank">

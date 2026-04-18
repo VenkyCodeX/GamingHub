@@ -62,6 +62,20 @@
     <i class="fa-brands fa-whatsapp"></i>
   </a>
 
+  <!-- FLOATING CART SIDEBAR -->
+  <div class="float-cart hidden" id="floatCart">
+    <div class="float-cart-header">
+      <span><i class="fa-solid fa-cart-shopping"></i> Cart (<span id="floatCartCount">0</span>)</span>
+      <button onclick="closeFloatCart()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="float-cart-items" id="floatCartItems"></div>
+    <div class="float-cart-footer">
+      <div class="float-cart-total">Total: <strong id="floatCartTotal">₹0</strong></div>
+      <a href="cart.html"><button class="checkout-btn" style="margin-top:8px"><i class="fa-solid fa-lock"></i> Proceed to Booking</button></a>
+    </div>
+  </div>
+  <div class="float-cart-overlay hidden" id="floatCartOverlay" onclick="closeFloatCart()"></div>
+
   <nav class="bottom-nav">
     <a href="index.html"><i class="fa-solid fa-house"></i><span>Home</span></a>
     <a href="products.html" class="active"><i class="fa-solid fa-th-large"></i><span>Category</span></a>
