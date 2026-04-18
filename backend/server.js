@@ -34,7 +34,7 @@ app.use('/api/reviews', require('./routes/reviews'));
 app.use('/api/upload', require('./routes/upload'));
 
 // Health check
-app.get('/api/health', (req, res) => res.json({ status: 'ok', timestamp: new Date() }));
+app.get('/api/health', (req, res) => res.json({ status: 'ok', version: '2.0', timestamp: new Date() }));
 
 // SPA fallback
 app.get('*', (req, res) => {
