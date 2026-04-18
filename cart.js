@@ -165,19 +165,19 @@ async function placeOrder() {
   } else {
     // Cash on Pickup — show WhatsApp + success
     const msg = `🎮 *New Booking - GamingHub*\n\n*ID:* ${bookingId}\n*Name:* ${name}\n*Phone:* ${phone}\n*Items:* ${cart.map(c=>c.name).join(', ')}\n*Pickup:* ${start} at ${sTime}\n*Return:* ${end} at ${eTime}\n*Total:* ₹${total}\n*Payment:* Cash on Pickup`;
-    window.open(`https://wa.me/919999999999?text=${encodeURIComponent(msg)}`, '_blank');
+    window.open(`https://wa.me/919391265697?text=${encodeURIComponent(msg)}`, '_blank');
     showSuccess(bookingId);
   }
 }
 
 // ===== UPI MODAL =====
 function copyUPI() {
-  navigator.clipboard.writeText('gamingrentalhub@upi').then(() => showToast('UPI ID copied!'));
+  navigator.clipboard.writeText('bikerentalhub.hyderabad@gmail.com').then(() => showToast('Email copied!'));
 }
 
 function openUPIApp(app) {
   const amount = getTotal();
-  const upiId = 'gamingrentalhub@upi';
+  const upiId = 'bikerentalhub.hyderabad@gmail.com';
   const note = `GamingHub Booking ${pendingBookingId}`;
   const upiUrl = `upi://pay?pa=${upiId}&pn=GamingRentalHub&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`;
   window.location.href = upiUrl;
