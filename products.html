@@ -62,19 +62,17 @@
     <i class="fa-brands fa-whatsapp"></i>
   </a>
 
-  <!-- FLOATING CART SIDEBAR -->
-  <div class="float-cart hidden" id="floatCart">
-    <div class="float-cart-header">
-      <span><i class="fa-solid fa-cart-shopping"></i> Cart (<span id="floatCartCount">0</span>)</span>
-      <button onclick="closeFloatCart()"><i class="fa-solid fa-xmark"></i></button>
+  <!-- FLOATING CART BAR -->
+  <div class="float-cart-bar hidden" id="floatCartBar">
+    <div class="float-cart-bar-left">
+      <div class="float-cart-bar-icon"><i class="fa-solid fa-cart-shopping"></i><span class="float-cart-bar-count" id="floatBarCount">0</span></div>
+      <div>
+        <div class="float-cart-bar-items" id="floatBarItems">0 items</div>
+        <div class="float-cart-bar-total" id="floatBarTotal">₹0</div>
+      </div>
     </div>
-    <div class="float-cart-items" id="floatCartItems"></div>
-    <div class="float-cart-footer">
-      <div class="float-cart-total">Total: <strong id="floatCartTotal">₹0</strong></div>
-      <a href="cart.html"><button class="checkout-btn" style="margin-top:8px"><i class="fa-solid fa-lock"></i> Proceed to Booking</button></a>
-    </div>
+    <a href="cart.html" class="float-cart-bar-btn">Proceed to Booking <i class="fa-solid fa-arrow-right"></i></a>
   </div>
-  <div class="float-cart-overlay hidden" id="floatCartOverlay" onclick="closeFloatCart()"></div>
 
   <nav class="bottom-nav">
     <a href="index.html"><i class="fa-solid fa-house"></i><span>Home</span></a>

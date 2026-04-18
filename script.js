@@ -284,38 +284,20 @@ function updateCartBadge() {
   document.getElementById('cartBadge').textContent = total;
 }
 
-// ===== FLOATING CART =====
+// ===== FLOATING CART BAR =====
 function showFloatCart() {
-  const fc = document.getElementById('floatCart');
-  const overlay = document.getElementById('floatCartOverlay');
-  if (!fc) return;
-  fc.classList.remove('hidden');
-  overlay.classList.remove('hidden');
-  renderFloatCart();
+  const bar = document.getElementById('floatCartBar');
+  if (!bar) return;
+  const total = cart.reduce((s,c) => s + c.qty, 0);
+  const amount = cart.reduce((s,c) => s + c.price * c.qty, 0);
+  document.getElementById('floatBarCount').textContent = total;
+  document.getElementById('floatBarItems').textContent = `${total} item${total !== 1 ? 's' : ''} in cart`;
+  document.getElementById('floatBarTotal').textContent = `₹${amount}`;
+  bar.classList.remove('hidden');
 }
 
 function closeFloatCart() {
-  document.getElementById('floatCart')?.classList.add('hidden');
-  document.getElementById('floatCartOverlay')?.classList.add('hidden');
-}
-
-function renderFloatCart() {
-  const items = document.getElementById('floatCartItems');
-  const count = document.getElementById('floatCartCount');
-  const totalEl = document.getElementById('floatCartTotal');
-  if (!items) return;
-  count.textContent = cart.reduce((s,c) => s+c.qty, 0);
-  totalEl.textContent = `₹${cart.reduce((s,c) => s+c.price*c.qty, 0)}`;
-  items.innerHTML = cart.map(c => `
-    <div class="float-cart-item">
-      <img src="${c.image || 'assets/placeholder.png'}" onerror="this.src='assets/placeholder.png'" />
-      <div class="float-cart-item-info">
-        <div class="float-cart-item-name">${c.name}</div>
-        <div class="float-cart-item-price">₹${c.price}/mo</div>
-        <div class="float-cart-item-qty">Qty: ${c.qty}</div>
-      </div>
-    </div>
-  `).join('') || '<p style="color:#888;font-size:0.82rem;text-align:center;padding:20px">Cart is empty</p>';
+  document.getElementById('floatCartBar')?.classList.add('hidden');
 }
 
 function toggleWishlist(btn) {
