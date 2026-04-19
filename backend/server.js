@@ -21,13 +21,18 @@ async function autoSeed() {
       console.log('Admin user created');
     }
 
-    // Reseed products if any have base64 images or no products exist
-    const products = await Product.find({});
-    const hasBase64 = products.some(p => p.image && p.image.startsWith('data:'));
-    if (products.length === 0 || hasBase64) {
-      console.log('Reseeding products...');
+    // Reseed only if NO products exist at all
+    const count = await Product.countDocuments();
+    if (count === 0) {
+      console.log('No products found, seeding...');
       const { execSync } = require('child_process');
       execSync('node ' + path.join(__dirname, 'seed.js'), { stdio: 'inherit' });
+    } else {
+      // Clean up any base64 images silently
+      await Product.updateMany(
+        { image: { $regex: '^data:' } },
+        { $set: { image: '' } }
+      );
     }
   } catch (e) { console.error('Auto-seed error:', e.message); }
 }

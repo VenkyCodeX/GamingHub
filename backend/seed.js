@@ -39,9 +39,13 @@ async function seed() {
 
   const adminEmail = process.env.ADMIN_EMAIL || 'admin@gamingrentalhub.in';
   const adminPassword = process.env.ADMIN_PASSWORD || 'Admin@123';
-  await User.deleteMany({ email: adminEmail });
-  await User.create({ email: adminEmail, password: adminPassword, role: 'admin' });
-  console.log(`✅ Admin user created: ${adminEmail}`);
+  const adminExists = await User.findOne({ email: adminEmail });
+  if (!adminExists) {
+    await User.create({ email: adminEmail, password: adminPassword, role: 'admin' });
+    console.log(`✅ Admin user created: ${adminEmail}`);
+  } else {
+    console.log(`✅ Admin already exists: ${adminEmail}`);
+  }
 
   mongoose.disconnect();
 }
