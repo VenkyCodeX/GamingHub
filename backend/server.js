@@ -23,9 +23,6 @@ async function autoSeed() {
 app.use(cors());
 app.use(express.json());
 
-// Serve static frontend files
-app.use(express.static(path.join(__dirname, '..')));
-
 // API Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/products', require('./routes/products'));
@@ -35,6 +32,9 @@ app.use('/api/upload', require('./routes/upload'));
 
 // Health check
 app.get('/api/health', (req, res) => res.json({ status: 'ok', version: '2.0', timestamp: new Date() }));
+
+// Serve static frontend files
+app.use(express.static(path.join(__dirname, '..')));
 
 // SPA fallback
 app.get('*', (req, res) => {
