@@ -21,14 +21,15 @@ async function autoSeed() {
       console.log('Admin user created');
     }
 
-    // Reseed only if NO products exist at all
+    // Reseed if no products OR if existing products have no images
     const count = await Product.countDocuments();
-    if (count === 0) {
-      console.log('No products found, seeding...');
+    const withImages = await Product.countDocuments({ image: { $nin: ['', null] } });
+    if (count === 0 || withImages === 0) {
+      console.log('Seeding products...');
       const { execSync } = require('child_process');
       execSync('node ' + path.join(__dirname, 'seed.js'), { stdio: 'inherit' });
     } else {
-      // Clean up any base64 images silently
+      // Clean up any base64 images
       await Product.updateMany(
         { image: { $regex: '^data:' } },
         { $set: { image: '' } }
@@ -49,6 +50,19 @@ app.use('/api/upload', require('./routes/upload'));
 
 // Health check
 app.get('/api/health', (req, res) => res.json({ status: 'ok', version: '2.0', timestamp: new Date() }));
+
+// One-time reseed endpoint (admin only)
+app.post('/api/reseed', async (req, res) => {
+  if (req.headers['x-reseed-key'] !== process.env.JWT_SECRET) 
+    return res.status(401).json({ message: 'Unauthorized' });
+  try {
+    const { execSync } = require('child_process');
+    execSync('node ' + require('path').join(__dirname, 'backend/seed.js'), { stdio: 'inherit' });
+    res.json({ message: 'Reseeded successfully' });
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+});
 
 // Serve static frontend files
 app.use(express.static(path.join(__dirname, '..')));

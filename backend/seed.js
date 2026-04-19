@@ -43,8 +43,6 @@ async function seed() {
   if (!adminExists) {
     await User.create({ email: adminEmail, password: adminPassword, role: 'admin' });
     console.log(`✅ Admin user created: ${adminEmail}`);
-  } else {
-    console.log(`✅ Admin already exists: ${adminEmail}`);
   }
 
   mongoose.disconnect();
