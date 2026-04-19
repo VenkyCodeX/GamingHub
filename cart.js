@@ -1,4 +1,4 @@
-const API = 'https://gaminghub-1-be7i.onrender.com/api';
+const API = 'https://gamingrentalhub.com/api';
 let cart = JSON.parse(localStorage.getItem('cart') || '[]');
 let paymentMethod = 'upi';
 let discount = 0;
