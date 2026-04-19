@@ -11,9 +11,21 @@ async function autoSeed() {
   try {
     const Product = require('./models/Product');
     const User = require('./models/User');
-    const count = await Product.countDocuments();
-    if (count === 0) {
-      console.log('No products found, seeding...');
+    const adminEmail = process.env.ADMIN_EMAIL || 'admin@gamingrentalhub.in';
+    const adminPassword = process.env.ADMIN_PASSWORD || 'Admin@123';
+
+    // Always ensure admin user exists
+    const adminExists = await User.findOne({ email: adminEmail });
+    if (!adminExists) {
+      await User.create({ email: adminEmail, password: adminPassword, role: 'admin' });
+      console.log('Admin user created');
+    }
+
+    // Reseed products if any have base64 images or no products exist
+    const products = await Product.find({});
+    const hasBase64 = products.some(p => p.image && p.image.startsWith('data:'));
+    if (products.length === 0 || hasBase64) {
+      console.log('Reseeding products...');
       const { execSync } = require('child_process');
       execSync('node ' + path.join(__dirname, 'seed.js'), { stdio: 'inherit' });
     }

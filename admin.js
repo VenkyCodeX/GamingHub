@@ -128,7 +128,13 @@ async function saveProduct() {
       });
       const uploadData = await uploadRes.json();
       if (uploadData.url) imageUrl = uploadData.url;
-    } catch {}
+    } catch { showAdminToast('Image upload failed'); return; }
+  }
+
+  // Block base64 images from being saved
+  if (imageUrl && imageUrl.startsWith('data:')) {
+    showAdminToast('Please upload an image file instead of pasting base64');
+    return;
   }
 
   const payload = {
