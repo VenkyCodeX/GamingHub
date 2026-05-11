@@ -2,8 +2,25 @@ const API = 'https://gamingrentalhub.com/api';
 let token = localStorage.getItem('adminToken');
 
 document.addEventListener('DOMContentLoaded', () => {
-  if (token) showDashboard();
+  if (token) verifyAndShow();
 });
+
+async function verifyAndShow() {
+  try {
+    const res = await fetch(`${API}/auth/verify`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    if (res.ok) {
+      showDashboard();
+    } else {
+      localStorage.removeItem('adminToken');
+      token = null;
+    }
+  } catch {
+    localStorage.removeItem('adminToken');
+    token = null;
+  }
+}
 
 // ===== AUTH =====
 async function adminLogin() {
