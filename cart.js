@@ -24,7 +24,7 @@ function renderCart() {
         <i class="fa-solid fa-cart-shopping"></i>
         <p style="font-size:1rem;font-weight:600;margin-bottom:6px">Your cart is empty</p>
         <p style="font-size:0.82rem;color:#aaa;margin-bottom:16px">Add some products to get started</p>
-        <a href="products.html"><button class="checkout-btn" style="width:auto;padding:10px 24px">Browse Products</button></a>
+        <a href="/products"><button class="checkout-btn" style="width:auto;padding:10px 24px">Browse Products</button></a>
       </div>`;
     document.getElementById('datesSection').style.display = 'none';
     document.getElementById('detailsSection').style.display = 'none';

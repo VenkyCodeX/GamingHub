@@ -67,9 +67,18 @@ app.post('/api/reseed', async (req, res) => {
 // Serve static frontend files
 app.use(express.static(path.join(__dirname, '..')));
 
+// Clean URL routes
+const pages = ['products', 'cart', 'mybookings', 'terms', 'admin'];
+pages.forEach(page => {
+  app.get(`/${page}`, (req, res) => {
+    res.sendFile(path.join(__dirname, '..', `${page}.html`));
+  });
+});
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, '..', 'index.html')));
+
 // SPA fallback
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'index.html'));
+  res.sendFile(path.join(__dirname, '..', '404.html'));
 });
 
 const PORT = process.env.PORT || 5000;
