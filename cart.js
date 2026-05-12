@@ -172,12 +172,12 @@ async function placeOrder() {
 
 // ===== UPI MODAL =====
 function copyUPI() {
-  navigator.clipboard.writeText('bikerentalhub.hyderabad@gmail.com').then(() => showToast('Email copied!'));
+  navigator.clipboard.writeText('gamingrentalhub@upi').then(() => showToast('UPI ID copied!'));
 }
 
 function openUPIApp(app) {
   const amount = getTotal();
-  const upiId = 'bikerentalhub.hyderabad@gmail.com';
+  const upiId = 'gamingrentalhub@upi';
   const note = `GamingHub Booking ${pendingBookingId}`;
   const upiUrl = `upi://pay?pa=${upiId}&pn=GamingRentalHub&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`;
   window.location.href = upiUrl;
